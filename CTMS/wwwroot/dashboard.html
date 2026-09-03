@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>CTMS | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" crossorigin="anonymous" media="print" onload="this.media='all'" />
+   <!-- Beautiful Modern Font: Inter (2025 top choice for web apps/dashboards) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- OverlayScrollbars -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
+
+  <!-- DataTables for nice tables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+  <!-- AdminLTE CSS -->
+  <link rel="stylesheet" href="css/adminlte.min.css" />
+  <!-- Custom CTMS Styles (AFTER AdminLTE) -->
+  <link rel="stylesheet" href="css/custom.css" />
+  
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
+
+<!-- ================= HEADER ================= -->
+<nav class="app-header navbar navbar-expand bg-body">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+          <i class="bi bi-list"></i>
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span class="d-none d-md-inline ms-2">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ================= SIDEBAR ================= -->
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+  <div class="sidebar-brand">
+    <a href="dashboard.html" class="brand-link">
+      <span class="brand-text fw-light" style="font-size: 2.0rem;" >CTMS</span>
+      <div class="sidebar-toggle-btn p-3 text-center border-bottom">
+    <a href="#" class="nav-link" data-lte-toggle="sidebar" role="button">
+      <i class="bi bi-chevron-left fs-5 text-white"></i> <!-- Collapse icon -->
+    </a>
+  </div>
+
+    </a>
+  </div>
+  
+  <div class="sidebar-wrapper">
+    <nav class="mt-2">
+      <ul class="nav sidebar-menu flex-column">
+
+        <li class="nav-item">
+          <a href="dashboard.html" class="nav-link active">
+            <i class="nav-icon bi bi-speedometer"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <!-- Customer -->
+        <li class="nav-item" id="createPackageMenu">
+          <a href="#" class="nav-link" onclick="showCreatePackage()">
+            <i class="nav-icon bi bi-box"></i>
+            <p>Create Package</p>
+          </a>
+        </li>
+
+        <li class="nav-item" id="myPackagesMenu">
+          <a href="#" class="nav-link" onclick="showMyPackages()">
+            <i class="nav-icon bi bi-search"></i>
+            <p>My Packages</p>
+          </a>
+        </li>
+
+        <!-- Courier -->
+        <li class="nav-item" id="assignedPackagesMenu">
+          <a href="#" class="nav-link" onclick="showAssignedPackages()">
+            <i class="nav-icon bi bi-truck"></i>
+            <p>Assigned Packages</p>
+          </a>
+        </li>
+
+        <!-- Admin -->
+        <li class="nav-item" id="allPackagesMenu">
+          <a href="#" class="nav-link" onclick="showAllPackages()">
+            <i class="nav-icon bi bi-archive"></i>
+            <p>All Packages</p>
+          </a>
+        </li>
+
+        <li class="nav-item" id="viewCouriersMenu">
+  <a href="#" class="nav-link" onclick="showCouriersList()">
+    <i class="nav-icon bi bi-truck"></i>
+    <p>View Couriers</p>
+  </a>
+</li>
+
+ <li class="nav-item" id="viewCustomersMenu">
+  <a href="#" class="nav-link" onclick="showCustomersList()">
+    <i class="nav-icon bi bi-people"></i>
+    <p>View Customers</p>
+  </a>
+</li>
+
+        <li class="nav-item" id="adminMenu">
+          <a href="#" class="nav-link" onclick="showAdminPanel()">
+            <i class="nav-icon bi bi-gear"></i>
+            <p>Admin Panel</p>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main class="app-main">
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3>Welcome, <span id="userRoleDisplay"></span>!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid" id="mainContent">
+      <!-- Content will be loaded here dynamically -->
+      <div class="card">
+        <div class="card-body">
+          <p>Select an option from the sidebar to begin.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="app-footer">
+  <strong>&copy; 2025 CTMS - Courier Tracking Management System</strong>
+</footer>
+
+</div>
+
+<!-- ================= Raw SQL Queries ================= -->
+<div class="container mt-5" id="rawSqlDemoSection" style="display: none;">
+  <div class="card border-primary shadow">
+    <div class="card-header bg-primary text-white text-center">
+      <h4>Raw SQL Queries in Backend</h4>
+      <p class="mb-0">Data fetched using pure SQL</p>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="d-grid">
+            <button class="btn btn-outline-primary btn-lg" onclick="testRawTracking()">
+              <i class="bi bi-search me-2"></i>Test Public Tracking (Raw SQL)
+            </button>
+          </div>
+          <input type="text" id="demoTrackingInput" class="form-control mt-2" placeholder="Enter tracking number (e.g., TRK-11111111)" />
+        </div>
+        <div class="col-md-6">
+          <div class="d-grid">
+            <button class="btn btn-outline-success btn-lg" onclick="testRawAllPackages()">
+              <i class="bi bi-table me-2"></i>Test All Packages (Raw SQL)
+            </button>
+          </div>
+                  <div class="col-md-6">
+          <button class="btn btn-outline-info btn-lg w-100 mb-2" onclick="testRawCustomers()">
+            <i class="bi bi-people me-2"></i>Test View Customers (Raw SQL)
+          </button>
+          <button class="btn btn-outline-secondary btn-lg w-100 mb-2" onclick="testRawCouriers()">
+            <i class="bi bi-truck me-2"></i>Test View Couriers (Raw SQL)
+          </button>
+        </div>
+        </div>
+      </div>
+      <div id="rawSqlResult" class="mt-4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER DEMO: Raw SQL My Packages -->
+<div class="container mt-5" id="customerRawSqlDemo" style="display: none;">
+  <div class="card border-info shadow">
+    <div class="card-header bg-info text-white">
+      <h5>Demo: My Packages via Raw SQL</h5>
+    </div>
+    <div class="card-body">
+      <button class="btn btn-info" onclick="testCustomerRawMyPackages()">Load My Packages (Raw SQL)</button>
+      <div id="customerRawResult" class="mt-3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER: Raw SQL Create Package Demo -->
+<div class="container mt-5" id="customerCreateRawDemo" style="display: none;">
+  <div class="card border-warning shadow">
+    <div class="card-header bg-warning text-dark text-center">
+      <h5><i class="bi bi-database me-2"></i>Demo: Create Package via Raw SQL</h5>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-info">
+        <strong>How to use:</strong><br>
+        1. Fill in "Delivery Address" and "Weight" in the normal form above<br>
+        2. Click the button below to create the same package using <strong>pure Raw SQL</strong>
+      </div>
+      <button class="btn btn-warning btn-lg w-100" onclick="testCreateRaw()">
+        <i class="bi bi-lightning-charge me-2"></i>
+        Create Package using Raw SQL (Demo)
+      </button>
+      <div id="createRawResult" class="mt-4"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- COURIER DEMO: Raw SQL Assigned Packages -->
+<div class="container mt-5" id="courierRawSqlDemo" style="display: none;">
+  <div class="card border-success shadow">
+    <div class="card-header bg-success text-white">
+      <h5>Demo: Assigned Packages via Raw SQL</h5>
+    </div>
+    <div class="card-body">
+      <button class="btn btn-success" onclick="testCourierRawAssigned()">Load Assigned Packages (Raw SQL)</button>
+      <div id="courierRawResult" class="mt-3"></div>
+    </div>
+  </div>
+
+     <!-- End of Update Status Demo -->
+
+
+</div>
+
+
+
+<!-- ================= SCRIPTS ================= -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"></script>
+<script src="js/adminlte.min.js"></script>
+
+<script>
+// ================= AUTH & ROLE SETUP =================
+const token = localStorage.getItem('token');
+const role = localStorage.getItem('role') || 'Unknown';
+
+if (!token) {
+  window.location.href = 'index.html';
+}
+
+document.getElementById('userRoleDisplay').textContent = role;
+
+// Hide all menus first
+['createPackageMenu', 'myPackagesMenu', 'assignedPackagesMenu', 'allPackagesMenu', 'viewCouriersMenu', 'viewCustomersMenu', 'adminMenu'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+});
+
+// Show role-specific menus
+if (role === 'Customer') {
+  document.getElementById('createPackageMenu').style.display = 'block';
+  document.getElementById('myPackagesMenu').style.display = 'block';
+  document.getElementById('customerRawSqlDemo').style.display = 'block';
+  document.getElementById('customerCreateRawDemo').style.display = 'block';
+} else if (role === 'Courier') {
+  document.getElementById('assignedPackagesMenu').style.display = 'block';
+  document.getElementById('courierRawSqlDemo').style.display = 'block';
+} else if (role === 'Admin') {
+  document.getElementById('allPackagesMenu').style.display = 'block';
+  document.getElementById('viewCouriersMenu').style.display = 'block';     // ← ADD
+  document.getElementById('viewCustomersMenu').style.display = 'block';
+  document.getElementById('adminMenu').style.display = 'block';
+  document.getElementById('rawSqlDemoSection').style.display = 'block';
+}
+
+// ================= LOGOUT =================
+function logout() {
+  localStorage.clear();
+  window.location.href = 'index.html';
+}
+
+// ================= DYNAMIC CONTENT LOADER =================
+function loadContent(html) {
+  document.getElementById('mainContent').innerHTML = html;
+}
+
+// ================= CUSTOMER: Create Package =================
+function showCreatePackage() {
+  const ratePerKg = 5.00;
+
+  loadContent(`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Create New Package</h3>
+      </div>
+      <div class="card-body">
+        <form id="createPackageForm">
+          <div class="mb-3">
+            <label class="form-label">Delivery Address</label>
+            <input type="text" class="form-control" id="deliveryAddress" placeholder="Enter full delivery address" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Weight (kg)</label>
+            <input type="number" step="0.01" min="0.01" class="form-control" id="packageWeight" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Estimated Cost</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input type="text" class="form-control" id="packageCost" readonly value="0.00" />
+            </div>
+            <small class="text-muted">Rate: $${ratePerKg} per kg</small>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Create Package</button>
+        </form>
+        <div id="createResult" class="mt-3"></div>
+      </div>
+    </div>
+  `);
+
+  const weightInput = document.getElementById('packageWeight');
+  const costInput = document.getElementById('packageCost');
+
+  weightInput.addEventListener('input', () => {
+    const weight = parseFloat(weightInput.value);
+    if (!isNaN(weight) && weight > 0) {
+      costInput.value = (weight * ratePerKg).toFixed(2);
+    } else {
+      costInput.value = '0.00';
+    }
+  });
+
+  document.getElementById('createPackageForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const weight = parseFloat(weightInput.value);
+    const address = document.getElementById('deliveryAddress').value.trim();
+
+    if (isNaN(weight) || weight <= 0 || !address) {
+      document.getElementById('createResult').innerHTML = '<div class="alert alert-danger">Please fill all fields correctly</div>';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/Package', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ 
+          weight: weight,
+          deliveryAddress: address
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        document.getElementById('createResult').innerHTML = `
+          <div class="alert alert-success">
+            <strong>Success!</strong><br>
+            Tracking Number: <strong>${data.trackingNumber}</strong><br>
+            Cost: <strong>$${(weight * ratePerKg).toFixed(2)}</strong>
+          </div>
+        `;
+        weightInput.value = '';
+        document.getElementById('deliveryAddress').value = '';
+        costInput.value = '0.00';
+      } else {
+        const error = await res.text();
+        document.getElementById('createResult').innerHTML = `<div class="alert alert-danger">${error}</div>`;
+      }
+    } catch (err) {
+      document.getElementById('createResult').innerHTML = '<div class="alert alert-danger">Network error</div>';
+    }
+  };
+}
+
+// ================= CUSTOMER: My Packages (with Delivery Address) =================
+function showMyPackages() {
+  loadContent(`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">My Packages</h3>
+      </div>
+      <div class="card-body">
+        <div id="loading" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Loading packages...</p>
+        </div>
+        <div id="packagesContent" style="display:none;"></div>
+      </div>
+    </div>
+  `);
+
+  fetch('/api/Package/my', {
+    headers: { 
+      'Authorization': 'Bearer ' + token
+    }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
+  .then(packages => {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('packagesContent').style.display = 'block';
+
+    if (packages.length === 0) {
+      document.getElementById('packagesContent').innerHTML = '<div class="alert alert-info">No packages found.</div>';
+      return;
+    }
+
+    let html = `
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Tracking #</th>
+            <th>Weight</th>
+            <th>Delivery Address</th>
+            <th>Cost</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+    packages.forEach(p => {
+      html += `
+        <tr>
+          <td>${p.trackingNumber || 'N/A'}</td>
+          <td>${p.weight || 0} kg</td>
+          <td>${p.deliveryAddress || 'Not provided'}</td>
+          <td>$${(p.cost || 0).toFixed(2)}</td>
+          <td><span class="badge bg-${p.status === 'DELIVERED' ? 'success' : 'warning'}">${p.status || 'PENDING'}</span></td>
+          <td>${p.createdAt ? new Date(p.createdAt).toLocaleString() : 'N/A'}</td>
+        </tr>`;
+    });
+
+    html += `</tbody></table>`;
+    document.getElementById('packagesContent').innerHTML = html;
+  })
+  .catch(err => {
+    document.getElementById('loading').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`;
+  });
+}
+
+// ================= COURIER: Assigned Packages (with Delivery Address) =================
+function showAssignedPackages() {
+  loadContent(`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Assigned Packages</h3>
+      </div>
+      <div class="card-body">
+        <table id="assignedTable" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Tracking Number</th>
+              <th>Weight</th>
+              <th>Delivery Address</th>
+              <th>Current Status</th>
+              <th>Update Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  fetch('/api/Package/assigned', { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(res => res.json())
+    .then(packages => {
+      const tbody = document.querySelector('#assignedTable tbody');
+      packages.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${p.trackingNumber}</strong></td>
+            <td>${p.weight} kg</td>
+            <td>${p.deliveryAddress || 'Not provided'}</td>
+            <td><span class="badge bg-${p.status === 'DELIVERED' ? 'success' : 'warning'} fs-5">${p.status}</span></td>
+            <td>
+              <select class="form-select" onchange="updatePackageStatus('${p.trackingNumber}', this.value)">
+                <option value="">-- Select New Status --</option>
+                <option value="IN_TRANSIT">In Transit</option>
+                <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                <option value="DELIVERED">Delivered</option>
+                <option value="FAILED_ATTEMPT">Failed Attempt</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      });
+      $('#assignedTable').DataTable();
+    });
+}
+// ================= ADMIN: All Packages (Cost fixed + Delivery Address) =================
+function showAllPackages() {
+  loadContent(`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">All Packages (Admin View)</h3>
+      </div>
+      <div class="card-body">
+        <table id="allPackagesTable" class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Tracking</th>
+              <th>Customer</th>
+              <th>Courier</th>
+              <th>Weight</th>
+              <th>Delivery Address</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Assign Courier</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  // Fetch all packages
+  fetch('/api/Package/all', { headers: { 'Authorization': 'Bearer ' + token } })
+    .then(res => res.json())
+    .then(packages => {
+      const tbody = document.querySelector('#allPackagesTable tbody');
+      packages.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.trackingNumber}</td>
+            <td>${p.customerName}</td>
+            <td>${p.courierName}</td>
+            <td>${p.weight} kg</td>
+            <td>${p.deliveryAddress || 'Not provided'}</td>
+            <td><span class="badge bg-${p.status === 'DELIVERED' ? 'success' : 'warning'}">${p.status}</span></td>
+            <td>${new Date(p.createdAt).toLocaleString()}</td>
+            <td>
+              ${p.courierName === 'Not Assigned' ? 
+                `<button class="btn btn-sm btn-info" onclick="assignCourier('${p.trackingNumber}')">
+                   Assign
+                 </button>` 
+                : '<span class="text-success"><i class="fas fa-check"></i> Assigned</span>'
+              }
+            </td>
+          </tr>
+        `;
+      });
+      $('#allPackagesTable').DataTable();
+    });
+}
+
+// Admin: Assign Courier Function
+async function assignCourier(trackingNumber) {
+  // Simple prompt — you can make this a modal later
+  const courierId = prompt(`Enter Courier ID for package ${trackingNumber}:`);
+
+  if (!courierId || isNaN(courierId)) {
+    alert('Invalid Courier ID');
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/Package/assign/${trackingNumber}/${courierId}`, {
+      method: 'PUT',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      alert(data.message);
+      showAllPackages(); // Refresh list
+    } else {
+      const error = await res.text();
+      alert('Failed: ' + error);
+    }
+  } catch (err) {
+    alert('Network error');
+  }
+}
+
+// ================= ADMIN: View All Couriers =================
+function showCouriersList() {
+  loadContent(`
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h3 class="card-title"><i class="bi bi-truck me-2"></i>All Couriers</h3>
+      </div>
+      <div class="card-body">
+        <table id="couriersTable" class="table table-bordered table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Courier ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  // ← FIXED: Correct endpoint
+  fetch('/api/Admin/couriers', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
+  .then(couriers => {
+    const tbody = document.querySelector('#couriersTable tbody');
+    if (couriers.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center">No couriers found</td></tr>';
+      return;
+    }
+    couriers.forEach(c => {
+      tbody.innerHTML += `
+        <tr>
+          <td><strong class="text-primary">${c.courierId}</strong></td>
+          <td>${c.name}</td>
+          <td>${c.email}</td>
+          <td>${c.phone || 'Not provided'}</td>
+        </tr>
+      `;
+    });
+    $('#couriersTable').DataTable();
+  })
+  .catch(err => {
+    document.querySelector('#mainContent').innerHTML = '<div class="alert alert-danger">Error loading couriers</div>';
+  });
+}
+
+// ================= ADMIN: View All Customers =================
+function showCustomersList() {
+  loadContent(`
+    <div class="card">
+      <div class="card-header bg-info text-white">
+        <h3 class="card-title"><i class="bi bi-people me-2"></i>All Customers</h3>
+      </div>
+      <div class="card-body">
+        <table id="customersTable" class="table table-bordered table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Customer ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  // ← FIXED: Correct endpoint
+  fetch('/api/Admin/customers', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
+  .then(customers => {
+    const tbody = document.querySelector('#customersTable tbody');
+    if (customers.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center">No customers found</td></tr>';
+      return;
+    }
+    customers.forEach(c => {
+      tbody.innerHTML += `
+        <tr>
+          <td><strong class="text-info">${c.customerId}</strong></td>
+          <td>${c.name}</td>
+          <td>${c.email}</td>
+          <td>${c.phone || 'Not provided'}</td>
+          <td>${c.address || 'Not provided'}</td>
+        </tr>
+      `;
+    });
+    $('#customersTable').DataTable();
+  })
+  .catch(err => {
+    document.querySelector('#mainContent').innerHTML = '<div class="alert alert-danger">Error loading customers</div>';
+  });
+}
+// ================= ADMIN PANEL =================
+function showAdminPanel() {
+  loadContent(`
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Admin Panel</h3>
+      </div>
+      <div class="card-body">
+        <p>Admin features:</p>
+        <ul>
+          <li>View all packages (done)</li>
+          <li>Assign couriers (done)</li>
+          <li>System reports</li>
+        </ul>
+      </div>
+    </div>
+  `);
+}
+// ================= COURIER: Update Status =================
+async function updatePackageStatus(trackingNumber, newStatus) {
+  if (!newStatus || newStatus === "") {
+    alert('Please select a new status');
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/Package/update-status/${trackingNumber}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ newStatus })
+    });
+
+    if (res.ok) {
+      alert('Status updated successfully!');
+
+      // Refresh the assigned packages table to show new status
+      showAssignedPackages();
+    } else {
+      const error = await res.text();
+      alert('Failed to update status: ' + error);
+    }
+  } catch (err) {
+    alert('Network error. Please try again.');
+    console.error(err);
+  }
+}
+
+// ================= TEMPORARY TEACHER DEMO: Raw SQL Functions =================
+async function testRawTracking() {
+  const trackingNumber = document.getElementById('demoTrackingInput').value.trim().toUpperCase();
+  const resultDiv = document.getElementById('rawSqlResult');
+
+  if (!trackingNumber) {
+    resultDiv.innerHTML = '<div class="alert alert-warning">Please enter a tracking number</div>';
+    return;
+  }
+
+  resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary"></div><p>Loading from raw SQL...</p></div>';
+
+  try {
+    const res = await fetch(`/api/Package/demo-track-raw/${trackingNumber}`);
+    if (res.ok) {
+      const data = await res.json();
+            let html = `
+        <div class="alert alert-success mb-4">
+          Success! ${data.length} packages loaded using raw SQL
+        </div>
+        ${table}
+        
+        <!-- Raw SQL Assign Demo Button -->
+        <div class="mt-4 text-center">
+          <button class="btn btn-danger btn-lg px-5" onclick="demoAssignRawSql()">
+            <i class="bi bi-truck me-2"></i>
+            Demo: Assign Courier using Raw SQL
+          </button>
+          <div id="assignRawResult" class="mt-3"></div>
+        </div>
+      `;
+      resultDiv.innerHTML = html;
+    } 
+    else {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Package not found (raw SQL)</div>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Network error</div>';
+  }
+}
+
+async function testRawAllPackages() {
+  const resultDiv = document.getElementById('rawSqlResult');
+  resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-success"></div><p>Loading all packages from raw SQL...</p></div>';
+
+  try {
+    const res = await fetch('/api/Package/demo-all-packages-raw', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      let table = `
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>Tracking</th>
+                <th>Customer</th>
+                <th>Courier</th>
+                <th>Weight</th>
+                <th>Delivery Address</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Assign (Raw SQL)</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+      data.forEach(p => {
+        const isAssigned = p.courierName && p.courierName !== 'Not Assigned';
+        table += `
+          <tr>
+            <td><strong>${p.trackingNumber}</strong></td>
+            <td>${p.customerName}</td>
+            <td>${p.courierName}</td>
+            <td>${p.weight} kg</td>
+            <td>${p.deliveryAddress}</td>
+            <td><span class="badge bg-${p.status === 'DELIVERED' ? 'success' : 'warning'}">${p.status}</span></td>
+            <td>${new Date(p.createdAt).toLocaleDateString()}</td>
+            <td>
+              ${!isAssigned 
+                ? `<button class="btn btn-sm btn-danger" onclick="demoAssignRawSql('${p.trackingNumber}')">
+                     Assign (Raw)
+                   </button>`
+                : '<span class="text-success"><i class="bi bi-check"></i> Assigned</span>'
+              }
+            </td>
+          </tr>`;
+      });
+
+      table += `</tbody></table></div>`;
+
+      resultDiv.innerHTML = `
+        <div class="alert alert-success mb-3">
+          Success! ${data.length} packages loaded using Raw SQL
+        </div>
+        ${table}
+      `;
+    } else {
+      resultDiv.innerHTML = '<div class="alert alert-danger">Failed to load data</div>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Network error</div>';
+  }
+}
+
+
+
+async function testRawCustomers() {
+  const resultDiv = document.getElementById('rawSqlResult');
+  resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border"></div></div>';
+
+  try {
+    const res = await fetch('/api/Admin/demo-customers-raw', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      let table = '<table class="table"><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th></tr></thead><tbody>';
+data.forEach(c => {
+  table += `<tr><td>${c.customerId}</td><td>${c.name}</td><td>${c.email}</td><td>${c.phone}</td><td>${c.address}</td></tr>`;
+}); '</tbody></table>';
+      resultDiv.innerHTML = `<div class="alert alert-success">View Customers via Raw SQL:</div>${table}`;
+    }
+  } catch (err) { resultDiv.innerHTML = '<div class="alert alert-danger">Error</div>'; }
+}
+
+async function testRawCouriers() {
+  const resultDiv = document.getElementById('rawSqlResult');
+  resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border"></div></div>';
+
+  try {
+    const res = await fetch('/api/Admin/demo-couriers-raw', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      let table = `
+        <table class="table table-striped table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+      data.forEach(c => {
+        table += `
+          <tr>
+            <td><strong>${c.courierId || 'N/A'}</strong></td>
+            <td>${c.name || 'N/A'}</td>
+            <td>${c.email || 'N/A'}</td>
+            <td>${c.phone || 'Not provided'}</td>
+          </tr>`;
+      });
+
+      table += `</tbody></table>`;
+
+      resultDiv.innerHTML = `
+        <div class="alert alert-success mb-3">
+          <strong>View Couriers via Raw SQL</strong> (${data.length} found)
+        </div>
+        ${table}`;
+    } else {
+      resultDiv.innerHTML = '<div class="alert alert-danger">Failed to load couriers</div>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Network error</div>';
+  }
+}
+async function testCustomerRawMyPackages() {
+  const resultDiv = document.getElementById('customerRawResult');
+  resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border"></div></div>';
+
+  try {
+    const res = await fetch('/api/Package/demo-my-packages-raw', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      let table = '<table class="table"><thead><tr><th>Tracking</th><th>Weight</th><th>Address</th><th>Cost</th><th>Status</th></tr></thead><tbody>';
+      data.forEach(p => table += `<tr><td>${p.trackingNumber}</td><td>${p.weight}</td><td>${p.deliveryAddress}</td><td>$${p.cost}</td><td>${p.status}</td></tr>`);
+      table += '</tbody></table>';
+      resultDiv.innerHTML = `<div class="alert alert-success">${data.length} packages loaded via Raw SQL</div>${table}`;
+    } else {
+      resultDiv.innerHTML = '<div class="alert alert-danger">Failed to load</div>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Error</div>';
+  }
+}
+async function testCreateRaw() {
+  // Get values from the normal create package form
+  const weightInput = document.getElementById('packageWeight');
+  const addressInput = document.getElementById('deliveryAddress');
+  const resultDiv = document.getElementById('createRawResult');
+
+  if (!weightInput || !addressInput) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Please go to "Create Package" page first</div>';
+    return;
+  }
+
+  const weight = parseFloat(weightInput.value);
+  const address = addressInput.value.trim();
+
+  if (isNaN(weight) || weight <= 0 || !address) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Please fill both Weight and Delivery Address above first</div>';
+    return;
+  }
+
+  resultDiv.innerHTML = `
+    <div class="text-center">
+      <div class="spinner-border text-warning"></div>
+      <p class="mt-2">Creating package via Raw SQL...</p>
+    </div>`;
+
+  try {
+    const res = await fetch('/api/Package/demo-create-raw', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ 
+        weight: weight,
+        deliveryAddress: address 
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      resultDiv.innerHTML = `
+        <div class="alert alert-success text-center">
+          <h5><i class="bi bi-check-circle"></i> Package Created via Raw SQL!</h5>
+          <p><strong>Tracking Number:</strong> <span class="fs-4 text-primary">${data.trackingNumber}</span></p>
+          <p>Cost: <strong>$${(weight * 5.00).toFixed(2)}</strong> • Status: <strong>PENDING</strong></p>
+        </div>`;
+    } else {
+      const error = await res.text();
+      resultDiv.innerHTML = `<div class="alert alert-danger">Failed: ${error}</div>`;
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Network error. Try again.</div>';
+  }
+}
+async function testCourierRawAssigned() {
+  const resultDiv = document.getElementById('courierRawResult');
+  resultDiv.innerHTML = '<div class="text-center"><div class="spinner-border"></div></div>';
+
+  try {
+    const res = await fetch('/api/Package/demo-assigned-raw', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      let table = `
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped" id="rawAssignedTable">
+            <thead>
+              <tr>
+                <th>Tracking Number</th>
+                <th>Weight</th>
+                <th>Delivery Address</th>
+                <th>Current Status</th>
+                <th>Update Status (Raw SQL Demo)</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+      data.forEach(p => {
+        table += `
+          <tr data-tracking="${p.trackingNumber}">
+            <td><strong>${p.trackingNumber}</strong></td>
+            <td>${p.weight} kg</td>
+            <td>${p.deliveryAddress || 'Not provided'}</td>
+            <td>
+              <span class="badge bg-${
+                p.status === 'DELIVERED' ? 'success' : 
+                p.status === 'FAILED_ATTEMPT' ? 'danger' : 'warning'
+              } fs-5">${p.status}</span>
+            </td>
+            <td>
+              <select class="form-select form-select-sm">
+                <option value="">-- Select New Status (Raw SQL) --</option>
+                <option value="IN_TRANSIT">In Transit</option>
+                <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                <option value="DELIVERED">Delivered</option>
+                <option value="FAILED_ATTEMPT">Failed Attempt</option>
+              </select>
+            </td>
+          </tr>`;
+      });
+
+      table += `</tbody></table></div>`;
+
+      resultDiv.innerHTML = `
+        <div class="alert alert-success mb-3">
+          ${data.length} package(s) loaded via Raw SQL
+        </div>
+        ${table}`;
+
+      // Critical: Use event delegation on the table (works even after refresh)
+      const tableEl = document.getElementById('rawAssignedTable');
+      tableEl.onclick = null; // clear any old listener
+      tableEl.addEventListener('change', function(e) {
+        const select = e.target;
+        if (select && select.tagName === 'SELECT' && select.value) {
+          const trackingNumber = select.closest('tr').dataset.tracking;
+          updateStatusRawDemo(trackingNumber, select.value);
+          select.value = ''; // reset dropdown
+        }
+      });
+
+    } else {
+      resultDiv.innerHTML = '<div class="alert alert-danger">Failed to load assigned packages</div>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div class="alert alert-danger">Network error</div>';
+  }
+}
+
+async function updateStatusRawDemo(trackingNumber, newStatus) {
+  try {
+    const res = await fetch(`/api/Package/demo-update-status-raw/${trackingNumber}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ newStatus })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      alert(`Status updated to "${data.newStatus}" via Raw SQL!`);
+      testCourierRawAssigned(); // Refresh the Raw SQL table
+    } else {
+      const error = await res.text();
+      alert(`Update failed: ${error || 'Unknown error'}`);
+    }
+  } catch (err) {
+    alert('Network error while updating status');
+  }
+}
+
+
+
+</script>
+
+
+
+</body>
+</html>
